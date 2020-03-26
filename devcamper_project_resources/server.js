@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const logger = require("./middleware/logger");
 const morgan = require("morgan");
 const colors = require("colors");
+const errorHandler = require("./middleware/error");
 const connectDB = require("./config/db");
 
 // Load env vars
@@ -29,6 +30,9 @@ if (process.env.NODE_ENV === "development") {
 
 // Mount routers with the address! So in the bootcamp.js we only need to write "/"
 app.use("/api/v1/bootcamps", bootcamps);
+// important: the errorHandler should be post after the bootcamps because it get middleware in
+// "consecutive" order
+app.use(errorHandler);
 
 // app.get("/", (req, res) => {
 //   // res.send("<h1>Hello from express</h1>");
