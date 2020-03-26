@@ -12,12 +12,12 @@ const BootcampSchema = new mongoose.Schema({
   description: {
     type: String,
     require: [true, "Please add a description"],
-    maxlength: [500, "Description can not be more than 50 characters"]
+    maxlength: [500, "Description can not be more than 500 characters"]
   },
   website: {
     type: String,
     match: [
-      "get it from stackoverflow post",
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
       "Please use a valid URL with HTTP or HTTPS"
     ]
   },
@@ -27,7 +27,10 @@ const BootcampSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    match: ["get it from stackoverflow post", "Please add a valid email"]
+    match: [
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      "Please add a valid email"
+    ]
   },
   address: {
     type: String,
@@ -38,11 +41,11 @@ const BootcampSchema = new mongoose.Schema({
     type: {
       type: String,
       enum: ["Point"],
-      required: true
+      required: false
     },
     coordinates: {
       type: [Number],
-      required: true,
+      required: false,
       index: "2dsphere"
     },
     formattedAddress: String,
@@ -97,4 +100,4 @@ const BootcampSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.models("Bootcamp", BootcampSchema);
+module.exports = mongoose.model("Bootcamp", BootcampSchema);
