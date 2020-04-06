@@ -124,7 +124,7 @@ BootcampSchema.pre("save", async function(next) {
     country: loc[0].countryCode
   };
 
-  // Do not save address in DB
+  // Do not save AGAIN the address in DB because it is already saved in the location key in the database
   this.address = undefined;
 
   next();
