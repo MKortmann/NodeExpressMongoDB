@@ -19,7 +19,7 @@ const bootcamps = require("./routes/bootcamps");
 
 const app = express();
 
-// Body parser
+// Body parser: to be used in console! We send json, then to be correctly displayed should be parser.
 app.use(express.json());
 
 // app.use(logger);
@@ -30,8 +30,7 @@ if (process.env.NODE_ENV === "development") {
 
 // Mount routers with the address! So in the bootcamp.js we only need to write "/"
 app.use("/api/v1/bootcamps", bootcamps);
-// important: the errorHandler should be post after the bootcamps because it get middleware in
-// "consecutive" order
+// important: the errorHandler should be post after the bootcamps because It is executed in a linear order
 app.use(errorHandler);
 
 // app.get("/", (req, res) => {

@@ -16,6 +16,7 @@ const BootcampSchema = new mongoose.Schema({
   },
   website: {
     type: String,
+    required: [true, "Please add a website"],
     match: [
       /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
       "Please use a valid URL with HTTP or HTTPS"
@@ -41,11 +42,11 @@ const BootcampSchema = new mongoose.Schema({
     type: {
       type: String,
       enum: ["Point"],
-      required: false
+      required: [false, "Please, add a location!"]
     },
     coordinates: {
       type: [Number],
-      required: false,
+      required: [false, "Please, add a coordinate"],
       index: "2dsphere"
     },
     formattedAddress: String,
