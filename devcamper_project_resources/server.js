@@ -16,6 +16,7 @@ connectDB();
 
 // router files
 const bootcamps = require("./routes/bootcamps");
+const courses = require("./routes/courses");
 
 const app = express();
 
@@ -30,6 +31,7 @@ if (process.env.NODE_ENV === "development") {
 
 // Mount routers with the address! So in the bootcamp.js we only need to write "/"
 app.use("/api/v1/bootcamps", bootcamps);
+app.use("/api/v1/courses", courses);
 // important: the errorHandler should be post after the bootcamps because It is executed in a linear order
 app.use(errorHandler);
 
