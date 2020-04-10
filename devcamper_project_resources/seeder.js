@@ -43,7 +43,7 @@ const importData = async () => {
 // Delete data
 const deleteData = async () => {
   try {
-    // delete all bootcamps because we did not pass any paramer
+    // delete all bootcamps because we did not pass any parameter
     await Bootcamp.deleteMany();
     await Course.deleteMany();
     console.log("Data Destroyed...".red.inverse);
