@@ -7,6 +7,7 @@ const logger = require("./middleware/logger");
 const morgan = require("morgan");
 const colors = require("colors");
 const fileupload = require("express-fileupload");
+const cookieParser = require("cookie-parser");
 const errorHandler = require("./middleware/error");
 const connectDB = require("./config/db");
 
@@ -25,6 +26,8 @@ const app = express();
 
 // Body parser: to be used in console! We send json, then to be correctly displayed should be parser.
 app.use(express.json());
+// Cookie parser
+app.use(cookieParser());
 
 // app.use(logger);
 // Dev loggin middleware
