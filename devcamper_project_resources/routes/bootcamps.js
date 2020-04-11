@@ -9,6 +9,11 @@ const {
   bootcampPhotoUpload,
 } = require("../controllers/bootcamps");
 
+const Bootcamp = require("../models/Bootcamp");
+
+// middleware for advanced Results
+const advancedResults = require("../middleware/advancedResults");
+
 // Include other resource routers
 const courseRouter = require("./courses");
 
@@ -21,7 +26,12 @@ router.route("/radius/:zipcode/:distance").get(getBootcampsInRadius);
 
 router.route("/:id/photo").put(bootcampPhotoUpload);
 
-router.route("/").get(getBootcamps).post(createBootcamp);
+router
+  .route("/")
+  // so we implemented in this case this middleware: advancedResults for this
+  // method: getBootcamps
+  .get(advancedResults(Bootcamp, "courses"), getBootcamps)
+  .post(createBootcamp);
 
 router
   .route("/:id")
