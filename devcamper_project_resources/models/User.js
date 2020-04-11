@@ -25,6 +25,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please add a password"],
     minlength: 6,
+    // means that if we do a get user request, it will not return the password.
     select: false,
   },
   resetPasswordToken: String,
