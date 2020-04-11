@@ -19,6 +19,7 @@ connectDB();
 // router files
 const bootcamps = require("./routes/bootcamps");
 const courses = require("./routes/courses");
+const auth = require("./routes/auth");
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Mount routers with the address! So in the bootcamp.js we only need to write "/"
 app.use("/api/v1/bootcamps", bootcamps);
 app.use("/api/v1/courses", courses);
+app.use("/api/v1/auth", auth);
 // important: the errorHandler should be post after the bootcamps because It is executed in a linear order
 app.use(errorHandler);
 
