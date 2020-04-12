@@ -102,6 +102,11 @@ const BootcampSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      require: true,
+    },
   },
   {
     //in Mongoose, a virtual is a property that is not stored in MongoDB
