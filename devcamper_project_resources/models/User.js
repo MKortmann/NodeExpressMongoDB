@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -38,6 +39,11 @@ const UserSchema = new mongoose.Schema({
 
 // Encrypt password using bcrypt
 UserSchema.pre("save", async function (next) {
+  // to avoid bug when user forgot the password but has not set it.
+  if (!this.isModified("password")) {
+    next();
+  }
+  // So, these lines will only run if the password it actually modified!
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
@@ -54,6 +60,24 @@ UserSchema.methods.matchPassword = async function (enteredPassword) {
   // this.password: password encrypted stored in the database
   // enteredPassword: is the enteredPassword by the user
   return await bcrypt.compare(enteredPassword, this.password);
+};
+
+// Generate and hash password token
+UserSchema.methods.getResetPasswordToken = function () {
+  // generate token
+  const resetToken = crypto.randomBytes(20).toString("hex");
+
+  // Hash token and set to resetPasswordToken field
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  // Set expire for 10 minutes
+  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+
+  // we return the crypto random password, however, it saves the hash password.
+  return resetToken;
 };
 
 module.exports = mongoose.model("User", UserSchema);
