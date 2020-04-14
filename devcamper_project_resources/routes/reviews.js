@@ -1,14 +1,9 @@
 const express = require("express");
-const {
-  getCourses,
-  getCourse,
-  addCourse,
-  updateCourse,
-  deleteCourse,
-} = require("../controllers/courses");
+const { getReviews, getReview, addReview } = require("../controllers/reviews");
 
-const Course = require("../models/Course");
+const Review = require("../models/Review");
 
+// means that we are able to merge route, for example: /bootcamps/reviews...
 const router = express.Router({ mergeParams: true });
 
 // middleware for advanced Results
@@ -18,20 +13,19 @@ const { protect, authorize } = require("../middleware/auth");
 router
   .route("/")
   .get(
-    advancedResults(Course, {
+    advancedResults(Review, {
       path: "bootcamp",
       select: "name description",
     }),
-    getCourses
+    getReviews
   )
-  .post(protect, authorize("publisher", "admin"), addCourse);
+  .post(protect, authorize("user", "admin"), addReview);
+
 // the syntax :id, it is a express syntax.
 // it will route /anything, and then
 // req.params.id will be set to "anything"
-router
-  .route("/:id")
-  .get(getCourse)
-  .put(protect, authorize("publisher", "admin"), updateCourse)
-  .delete(protect, authorize("publisher", "admin"), deleteCourse);
+router.route("/:id").get(getReview);
+// .put(protect, authorize("publisher", "admin"), updateCourse)
+// .delete(protect, authorize("publisher", "admin"), deleteCourse);
 
 module.exports = router;
