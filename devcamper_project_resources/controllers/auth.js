@@ -74,6 +74,26 @@ exports.getMe = asyncHandler(async (req, res, next) => {
   });
 });
 
+// @desc    Log user out / clear cookie
+// @route   GET /api/v1/auth/logout
+// @access  Private
+exports.logout = asyncHandler(async (req, res, next) => {
+  // expires the cookie in 10 seconds
+  // res.cookie("token", "none", {
+  //   expires: new Date(Date.now() + 10 * 1000),
+  //   httpOnly: true,
+  // });
+  // another way to delete cookie!
+  // http://expressjs.com/en/5x/api.html#res.clearCookie
+  res.clearCookie("token");
+  res.send("cookie foo cleared");
+
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+
 // @desc    Update user details
 // @route   PUT /api/v1/auth/updatedetails
 // @access  Private

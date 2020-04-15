@@ -1,5 +1,11 @@
 const express = require("express");
-const { getReviews, getReview, addReview } = require("../controllers/reviews");
+const {
+  getReviews,
+  getReview,
+  addReview,
+  updateReview,
+  deleteReview,
+} = require("../controllers/reviews");
 
 const Review = require("../models/Review");
 
@@ -24,8 +30,13 @@ router
 // the syntax :id, it is a express syntax.
 // it will route /anything, and then
 // req.params.id will be set to "anything"
-router.route("/:id").get(getReview);
-// .put(protect, authorize("publisher", "admin"), updateCourse)
+router
+  .route("/:id")
+  .get(getReview)
+  .put(protect, authorize("user", "admin"), updateReview)
+  .delete(protect, authorize("user", "admin"), deleteReview);
+// .put(updateReview);
+// .put(protect, authorize("publisher", "admin"), updateCourse);
 // .delete(protect, authorize("publisher", "admin"), deleteCourse);
 
 module.exports = router;
